@@ -180,6 +180,18 @@ hr{border:none;border-top:1px solid var(--line);margin:20px 0}
 .qi{display:flex;gap:7px;font-size:12px;color:var(--muted);align-items:flex-start;line-height:1.5}
 .qi::before{content:'🔍';font-size:10px;flex-shrink:0;margin-top:1px}
 
+/* ── scroll hint wrapper for wide tables ── */
+.tscroll{position:relative}
+.tscroll::after{
+  content:'← เลื่อนดูได้ →';
+  display:none;
+  font-size:10px;
+  color:var(--lb);
+  text-align:center;
+  padding:6px 0 2px;
+  letter-spacing:.06em;
+}
+
 /* ── GROWTH CHART TIMELINE ── */
 .gc-wrap{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--panel);margin-bottom:20px}
 .gc-rows{padding:20px 22px;display:flex;flex-direction:column;gap:14px}
@@ -199,21 +211,100 @@ hr{border:none;border-top:1px solid var(--line);margin:20px 0}
 .gc-total-val{font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:700;color:var(--green)}
 
 @media(max-width:860px){
-  .hero,.bd,.sh{padding:20px}
+  /* ── layout ── */
+  .wrap{width:100vw;padding:12px 0 80px}
+  .hero{border-radius:0;padding:28px 18px 32px;margin-bottom:12px}
+  .sec{border-radius:16px;margin-bottom:12px}
+  .sh{padding:18px 18px 12px}
+  .bd{padding:16px 18px 22px}
+  .hero h1{font-size:30px}
+  .hero-sub{font-size:14px}
+  .hero-eye{font-size:9px;letter-spacing:.14em}
+
+  /* ── grids → single col ── */
   .g2,.g3,.g4,.hero-vals,.sumnums{grid-template-columns:1fr}
-  .tl{flex-wrap:wrap;gap:14px}
-  .tl::before{display:none}
-  .hero h1{font-size:34px}
   .dnut{flex-direction:column}
-  .vs{grid-template-columns:1fr}
-  /* table: horizontal scroll */
-  .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:14px}
-  .tw table{min-width:460px}
-  td,th{white-space:normal;word-break:keep-all}
-  .sh{padding:18px 20px 12px}
-  .bd{padding:18px 20px 24px}
-  .gc-rows{padding:16px}
-  .gc-total{margin:0 16px 16px}
+
+  /* ── VS block: stack vertically ── */
+  .vs{display:flex;flex-direction:column;border-radius:14px}
+  .vc{border-right:none;border-bottom:1px solid var(--line);padding:14px 16px}
+  .vc:last-child{border-bottom:none}
+  .vv{font-size:18px}
+  .vd{font-size:12px;overflow:visible;white-space:normal;word-break:break-word}
+
+  /* ── cards: no overflow ── */
+  .card{padding:14px 16px;overflow:hidden;word-break:break-word}
+  .card h3{font-size:16px}
+  .card p,.card li{font-size:13px;word-break:break-word;overflow-wrap:break-word;white-space:normal}
+
+  /* ── label: no truncation ── */
+  .lbl{white-space:normal;word-break:break-word;letter-spacing:.1em;font-size:9px}
+  .sh h2{font-size:22px;word-break:break-word}
+  .ssub{font-size:13px}
+
+  /* ── S03 VS inline grid → stack ── */
+  .bd [style*="grid-template-columns:1fr 1fr"]{display:flex!important;flex-direction:column}
+  .bd [style*="grid-template-columns:1fr 1fr"] > div{border-right:none!important;border-bottom:1px solid var(--line)}
+  .bd [style*="grid-template-columns:1fr 1fr"] > div:last-child{border-bottom:none}
+
+  /* ── scroll hint visible on mobile ── */
+  .tscroll::after{display:block}
+  .tscroll .tw{border-bottom-left-radius:0;border-bottom-right-radius:0}
+
+
+  .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:14px;display:block}
+  .tw table{min-width:400px;width:max-content;max-width:none}
+  .tw th,.tw td{white-space:nowrap;font-size:12px;padding:10px 12px}
+  /* 2-col tables: full width, no scroll needed */
+  .tw.t2col{overflow-x:visible}
+  .tw.t2col table{min-width:unset;width:100%}
+  .tw.t2col td,.tw.t2col th{white-space:normal;word-break:break-word}
+
+  /* ── flow chips: wrap ── */
+  .flow{flex-wrap:wrap;gap:5px}
+  .fs{font-size:11px;padding:4px 10px}
+
+  /* ── phase cards ── */
+  .phase-card .ph{padding:12px 16px}
+  .pa{font-size:24px}
+  .pb{padding:12px 16px}
+  .pnm{min-width:100px;font-size:11px}
+  .pv{font-size:11px}
+
+  /* ── grow rows ── */
+  .gtxt{font-size:12px;word-break:break-word;overflow-wrap:break-word}
+
+  /* ── smap ── */
+  .smap-items{gap:5px}
+  .si{font-size:11px;padding:4px 10px}
+
+  /* ── neuro tactics ── */
+  .trow{flex-wrap:wrap;gap:10px;padding:12px 16px}
+  .tico{width:36px;height:36px}
+  .ttitle{font-size:15px}
+  .tdesc,.tex{font-size:12px}
+
+  /* ── CRM pipeline ── */
+  .gc-rows{padding:14px 16px}
+  .gc-total{margin:0 14px 14px}
+  .gc-name{font-size:12px}
+  .gc-date{font-size:10px;white-space:normal}
+  .gc-fill-lbl{font-size:10px}
+
+  /* ── donut / legend ── */
+  .dll{font-size:12px}
+  .dlp{font-size:12px}
+
+  /* ── sumbox ── */
+  .sumbox{padding:24px 18px}
+  .sumbox h3{font-size:22px}
+  .sumbox p{font-size:13px}
+  .snv{font-size:24px}
+
+  /* ── section-head overflow ── */
+  .sec{overflow:hidden}
+  *{max-width:100%;box-sizing:border-box}
+  img{max-width:100%}
 }
 </style>
 </head>
@@ -271,7 +362,7 @@ hr{border:none;border-top:1px solid var(--line);margin:20px 0}
 <section class="sec">
   <div class="sh"><div class="sno">Section 02</div><h2>Competitive Landscape</h2><div class="ssub">ตลาด Cancer Care ในไทยแบ่งเป็น 4 กลุ่มหลัก — VINTA ต้องเข้าใจช่องว่างก่อนวางตัว</div></div>
   <div class="bd">
-    <div class="tw" style="margin-bottom:20px">
+    <div class="tscroll"><div class="tw" style="margin-bottom:0">
       <table>
         <thead><tr><th>คู่แข่ง</th><th>Positioning</th><th>จุดแข็ง</th><th>ช่องว่างที่ VINTA เข้าได้</th></tr></thead>
         <tbody>
@@ -282,9 +373,9 @@ hr{border:none;border-top:1px solid var(--line);margin:20px 0}
           <tr><td class="b">Siriraj / สถาบันมะเร็งแห่งชาติ</td><td>Academic excellence</td><td>Trust / credibility สูง / ราคาเข้าถึงได้</td><td class="g">Wait time / friction / digital communication</td></tr>
         </tbody>
       </table>
-    </div>
+    </div></div>
     <div class="lbl">Website Experience Matrix</div>
-    <div class="tw">
+    <div class="tscroll"><div class="tw">
       <table>
         <thead><tr><th>Feature</th><th>Bumrungrad</th><th>Bangkok Hosp.</th><th>Samitivej</th><th>Public</th><th>VINTA Goal</th></tr></thead>
         <tbody>
@@ -297,7 +388,7 @@ hr{border:none;border-top:1px solid var(--line);margin:20px 0}
           <tr><td>Speed / Mobile-first</td><td>สูง</td><td>กลาง</td><td>กลาง</td><td>ต่ำ</td><td class="g">สูงมาก ✓</td></tr>
         </tbody>
       </table>
-    </div>
+    </div></div>
   </div>
 </section>
 
@@ -305,47 +396,88 @@ hr{border:none;border-top:1px solid var(--line);margin:20px 0}
 <section class="sec">
   <div class="sh"><div class="sno">Section 03</div><h2>Strategic White Space &amp; Positioning</h2><div class="ssub">VINTA ไม่ควรสู้ด้วย "ใหญ่กว่า" — ควรสร้าง category ใหม่ด้วยสิ่งที่คู่แข่งยังทำไม่ได้</div></div>
   <div class="bd">
+
+    <!-- VS block: ใช้ flex stack แทน grid เพื่อ mobile -->
+    <div class="lbl">ตลาดพูดเรื่อง vs VINTA พูดเรื่อง</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:14px">
+      <div style="padding:16px;border-right:1px solid var(--line)">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--lb);margin-bottom:8px">ตลาดส่วนใหญ่</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:700;color:var(--brown);margin-bottom:6px">Technology · Scale</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6">Prestige · International<br/>Comprehensive · Complex</div>
+      </div>
+      <div style="padding:16px;background:var(--gl)">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--lb);margin-bottom:8px">VINTA</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:700;color:var(--gd);margin-bottom:6px">Guidance · Care</div>
+        <div style="font-size:12px;color:var(--gd);opacity:.85;line-height:1.6">Clarity · Clear Next Step<br/>Accessibility · Family-first</div>
+      </div>
+    </div>
+
+    <!-- Core positioning statement -->
+    <div class="card cgreen" style="margin-bottom:16px">
+      <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:19px;font-weight:600;color:var(--gd);line-height:1.45;margin-bottom:8px">"When cancer feels overwhelming, VINTA makes the next step clear."</div>
+      <p style="font-size:12px">เมื่อเรื่องมะเร็งทำให้สับสน VINTA ทำให้ทุกขั้นตอนชัดเจนและมีคนดูแล</p>
+    </div>
+
+    <!-- 4 win areas + positioning options: 2-col desktop, 1-col mobile -->
     <div class="g2">
       <div>
-        <div class="lbl">ตลาดพูดเรื่อง vs VINTA พูดเรื่อง</div>
-        <div class="vs" style="margin-bottom:14px">
-          <div class="vc"><div class="vt">ตลาดส่วนใหญ่</div><div class="vv">Technology · Scale</div><div class="vd">Prestige · International · Comprehensive · Complex Systems</div></div>
-          <div class="vc"><div class="vt">VINTA</div><div class="vv">Guidance · Care</div><div class="vd">Accessibility · Clarity · Clear Next Step · Family-first</div></div>
-        </div>
-        <div class="card cgreen" style="margin-bottom:14px">
-          <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:600;color:var(--gd);line-height:1.4;margin-bottom:8px">"When cancer feels overwhelming,<br/>VINTA makes the next step clear."</div>
-          <p style="font-size:12px">เมื่อเรื่องมะเร็งทำให้สับสน VINTA ทำให้ทุกขั้นตอนชัดเจนและมีคนดูแล</p>
-        </div>
-        <div class="lbl">Positioning Options — เลือกให้ชัดก่อน Launch</div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div class="card"><span class="badge bb">Option A · Human-led</span><h3>โรงพยาบาลมะเร็งที่เข้าใจคนไข้และครอบครัวที่สุด</h3><p>เน้น warmth, empathy — เหมาะสำหรับคนที่รู้สึก overwhelmed</p></div>
-          <div class="card"><span class="badge bw">Option B · Speed-led</span><h3>รู้ผลเร็ว นัดไว เริ่มรักษาเป็นขั้นตอน</h3><p>เน้น speed + clarity — เหมาะสำหรับ decision-maker ที่ต้องการความชัดเจน</p></div>
-          <div class="card cgreen"><span class="badge bg">Option C · Clarity-led</span><h3>จากความกังวล สู่แผนรักษาที่ชัดเจน</h3><p>เน้น reduce anxiety + clear path — เหมาะทุกกลุ่ม ✓ Recommended</p></div>
+        <div class="lbl">4 สิ่งที่ VINTA ชนะด้วย</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div class="card" style="display:flex;gap:12px;align-items:center">
+            <span style="font-size:22px;flex-shrink:0">⚡</span>
+            <div style="min-width:0"><h3 style="font-size:16px">เร็วกว่า</h3><p>Response time สั้น · นัดได้ไว · process ชัดเจน</p></div>
+          </div>
+          <div class="card" style="display:flex;gap:12px;align-items:center">
+            <span style="font-size:22px;flex-shrink:0">🎯</span>
+            <div style="min-width:0"><h3 style="font-size:16px">ชัดกว่า</h3><p>Cancer-first · ไม่ต้องเดา · journey ชัดทุกขั้น</p></div>
+          </div>
+          <div class="card" style="display:flex;gap:12px;align-items:center">
+            <span style="font-size:22px;flex-shrink:0">🤝</span>
+            <div style="min-width:0"><h3 style="font-size:16px">อุ่นใจกว่า</h3><p>Human warmth · family support · emotional tone</p></div>
+          </div>
+          <div class="card" style="display:flex;gap:12px;align-items:center">
+            <span style="font-size:22px;flex-shrink:0">📱</span>
+            <div style="min-width:0"><h3 style="font-size:16px">เข้าถึงง่ายกว่า</h3><p>LINE-first · mobile-first · CTA ทุกหน้า</p></div>
+          </div>
         </div>
       </div>
       <div>
-        <div class="lbl">4 สิ่งที่ VINTA ชนะด้วย</div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div class="card" style="display:flex;gap:14px;align-items:flex-start"><span style="font-size:24px">⚡</span><div><h3>เร็วกว่า</h3><p>Response time สั้น / นัดได้ไว / process ชัดเจนทุกขั้น</p></div></div>
-          <div class="card" style="display:flex;gap:14px;align-items:flex-start"><span style="font-size:24px">🎯</span><div><h3>ชัดกว่า</h3><p>Cancer-first positioning / ไม่ต้องเดา / journey ชัด</p></div></div>
-          <div class="card" style="display:flex;gap:14px;align-items:flex-start"><span style="font-size:24px">🤝</span><div><h3>อุ่นใจกว่า</h3><p>Human warmth / family support / emotional tone ทุก touchpoint</p></div></div>
-          <div class="card" style="display:flex;gap:14px;align-items:flex-start"><span style="font-size:24px">📱</span><div><h3>เข้าถึงง่ายกว่า</h3><p>LINE-first / mobile-first / ภาษาเข้าใจง่าย / CTA ทุกหน้า</p></div></div>
-        </div>
-        <div class="lbl mt">Market Gap Matrix</div>
-        <div class="tw">
-          <table>
-            <thead><tr><th>ปัจจัย</th><th>Premium</th><th>Network</th><th>Public</th><th>VINTA</th></tr></thead>
-            <tbody>
-              <tr><td>Speed ติดต่อ</td><td>กลาง</td><td>กลาง</td><td>ต่ำ</td><td class="g">สูง ✓</td></tr>
-              <tr><td>Personalized Care</td><td>กลาง</td><td>กลาง</td><td>ต่ำ</td><td class="g">สูงมาก ✓</td></tr>
-              <tr><td>Digital Simplicity</td><td>กลาง</td><td>กลาง</td><td>ต่ำ</td><td class="g">สูง ✓</td></tr>
-              <tr><td>Cancer-First Brand</td><td>สูง</td><td>กลาง</td><td>กลาง</td><td class="g">สูงมาก ✓</td></tr>
-              <tr><td>LINE-First Access</td><td>ต่ำ</td><td>ต่ำ</td><td>ต่ำ</td><td class="g">สูงมาก ✓</td></tr>
-            </tbody>
-          </table>
+        <div class="lbl">Positioning Options</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div class="card">
+            <span class="badge bb">Option A · Human-led</span>
+            <h3>โรงพยาบาลมะเร็งที่เข้าใจคนไข้และครอบครัวที่สุด</h3>
+            <p>เน้น warmth, empathy — เหมาะคนที่รู้สึก overwhelmed</p>
+          </div>
+          <div class="card">
+            <span class="badge bw">Option B · Speed-led</span>
+            <h3>รู้ผลเร็ว นัดไว เริ่มรักษาเป็นขั้นตอน</h3>
+            <p>เน้น speed + clarity — เหมาะ decision-maker</p>
+          </div>
+          <div class="card cgreen">
+            <span class="badge bg">Option C · Clarity-led ✓</span>
+            <h3>จากความกังวล สู่แผนรักษาที่ชัดเจน</h3>
+            <p>เน้น reduce anxiety + clear path — เหมาะทุกกลุ่ม</p>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Market Gap: card-based on mobile, no table scroll needed -->
+    <div class="lbl mt">Market Gap Matrix</div>
+    <div class="tscroll"><div class="tw">
+      <table>
+        <thead><tr><th>ปัจจัย</th><th>Premium</th><th>Network</th><th>Public</th><th>VINTA</th></tr></thead>
+        <tbody>
+          <tr><td>Speed ติดต่อ</td><td>กลาง</td><td>กลาง</td><td>ต่ำ</td><td class="g">สูง ✓</td></tr>
+          <tr><td>Personalized Care</td><td>กลาง</td><td>กลาง</td><td>ต่ำ</td><td class="g">สูงมาก ✓</td></tr>
+          <tr><td>Digital Simplicity</td><td>กลาง</td><td>กลาง</td><td>ต่ำ</td><td class="g">สูง ✓</td></tr>
+          <tr><td>Cancer-First Brand</td><td>สูง</td><td>กลาง</td><td>กลาง</td><td class="g">สูงมาก ✓</td></tr>
+          <tr><td>LINE-First Access</td><td>ต่ำ</td><td>ต่ำ</td><td>ต่ำ</td><td class="g">สูงมาก ✓</td></tr>
+        </tbody>
+      </table>
+    </div></div>
+
   </div>
 </section>
 
@@ -376,7 +508,7 @@ hr{border:none;border-top:1px solid var(--line);margin:20px 0}
       </div>
       <div>
         <div class="lbl">Must-have Functionalities</div>
-        <div class="tw" style="margin-bottom:14px">
+        <div class="tw t2col" style="margin-bottom:14px">
           <table>
             <thead><tr><th>Feature</th><th>เหตุผล</th></tr></thead>
             <tbody>
@@ -449,19 +581,73 @@ hr{border:none;border-top:1px solid var(--line);margin:20px 0}
   <div class="bd">
     <div class="g2" style="margin-bottom:20px">
       <div>
-        <div class="lbl">Funnel Architecture</div>
-        <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:16px">
-          <div style="background:var(--beige);border:1px solid var(--line);border-radius:9px;padding:10px 16px;font-size:13px;color:var(--muted)">SEO / Search / Social / PR / Paid Media</div>
-          <div style="text-align:center;color:var(--lb);font-size:12px">↓</div>
-          <div style="background:var(--brown);border-radius:9px;padding:10px 16px;display:flex;justify-content:space-between;align-items:center"><span style="color:var(--beige);font-size:13px">Website — Core Hub</span><span style="background:var(--lb);color:var(--brown);font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px">CORE</span></div>
-          <div style="text-align:center;color:var(--lb);font-size:12px">↓</div>
-          <div style="background:#06b900;border-radius:9px;padding:10px 16px;font-size:13px;color:#fff">LINE OA — Conversion Layer</div>
-          <div style="text-align:center;color:var(--lb);font-size:12px">↓</div>
-          <div style="background:var(--brown);border-radius:9px;padding:10px 16px;font-size:13px;color:var(--beige)">CRM — Pipeline Control</div>
-          <div style="text-align:center;color:var(--lb);font-size:12px">↓</div>
-          <div style="background:var(--green);border-radius:9px;padding:10px 16px;font-size:13px;color:#fff">Booking Team — Human Touch</div>
-          <div style="text-align:center;color:var(--lb);font-size:12px">↓</div>
-          <div style="background:var(--beige);border:1px solid var(--line);border-radius:9px;padding:10px 16px;font-size:13px;color:var(--muted)">Visit → Retention → Referral</div>
+        <div class="lbl">User Workflow Diagram</div>
+        <!-- SVG Workflow Diagram -->
+        <div style="border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel);padding:20px 16px 16px;margin-bottom:14px">
+          <svg viewBox="0 0 320 520" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block" aria-label="VINTA User Workflow Diagram">
+            <defs>
+              <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#af9c84"/>
+              </marker>
+              <marker id="arrg" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#259b94"/>
+              </marker>
+            </defs>
+            <!-- Step 1: Awareness -->
+            <rect x="40" y="10" width="240" height="44" rx="12" fill="#f3ece5" stroke="#e8ddd4" stroke-width="1"/>
+            <text x="160" y="28" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" fill="#af9c84" letter-spacing="1">AWARENESS</text>
+            <text x="160" y="45" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" fill="#604036">SEO · Social · PR · Paid Ads</text>
+            <!-- Arrow 1 -->
+            <line x1="160" y1="54" x2="160" y2="72" stroke="#af9c84" stroke-width="1.5" marker-end="url(#arr)"/>
+            <!-- Step 2: Website -->
+            <rect x="30" y="74" width="260" height="48" rx="12" fill="#604036" stroke="none"/>
+            <text x="160" y="93" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="700" fill="#af9c84" letter-spacing="1">WEBSITE — CORE HUB</text>
+            <text x="160" y="111" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="rgba(243,236,229,0.9)">Homepage · Disease Pages · Doctors</text>
+            <!-- Split arrows -->
+            <line x1="130" y1="122" x2="80" y2="148" stroke="#af9c84" stroke-width="1.5" marker-end="url(#arr)"/>
+            <line x1="190" y1="122" x2="240" y2="148" stroke="#af9c84" stroke-width="1.5" marker-end="url(#arr)"/>
+            <!-- Step 3a: LINE -->
+            <rect x="14" y="150" width="118" height="44" rx="12" fill="#06b900" stroke="none"/>
+            <text x="73" y="169" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing=".5">LINE OA</text>
+            <text x="73" y="184" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="rgba(255,255,255,.85)">Chat · Booking · Auto-reply</text>
+            <!-- Step 3b: Direct Contact -->
+            <rect x="188" y="150" width="118" height="44" rx="12" fill="#f3ece5" stroke="#e8ddd4"/>
+            <text x="247" y="169" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" fill="#604036">DIRECT CONTACT</text>
+            <text x="247" y="184" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#8a7268">Phone · Form · Email</text>
+            <!-- Merge arrows to CRM -->
+            <line x1="73" y1="194" x2="73" y2="210" stroke="#af9c84" stroke-width="1.5"/>
+            <line x1="247" y1="194" x2="247" y2="210" stroke="#af9c84" stroke-width="1.5"/>
+            <line x1="73" y1="210" x2="160" y2="210" stroke="#af9c84" stroke-width="1.5"/>
+            <line x1="247" y1="210" x2="160" y2="210" stroke="#af9c84" stroke-width="1.5"/>
+            <line x1="160" y1="210" x2="160" y2="228" stroke="#af9c84" stroke-width="1.5" marker-end="url(#arr)"/>
+            <!-- Step 4: CRM -->
+            <rect x="30" y="230" width="260" height="48" rx="12" fill="#af9c84" stroke="none"/>
+            <text x="160" y="250" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="700" fill="#604036" letter-spacing="1">CRM PIPELINE</text>
+            <text x="160" y="266" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="#604036">Lead → Qualified → Booked</text>
+            <!-- Arrow 4 -->
+            <line x1="160" y1="278" x2="160" y2="296" stroke="#af9c84" stroke-width="1.5" marker-end="url(#arr)"/>
+            <!-- Step 5: Booking Team -->
+            <rect x="60" y="298" width="200" height="44" rx="12" fill="#fdf0ea" stroke="#d4845a" stroke-width="1.5"/>
+            <text x="160" y="316" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="700" fill="#d4845a" letter-spacing=".5">BOOKING TEAM</text>
+            <text x="160" y="331" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="#d4845a">Human Follow-up · SLA 2hr</text>
+            <!-- Arrow 5 -->
+            <line x1="160" y1="342" x2="160" y2="360" stroke="#259b94" stroke-width="2" marker-end="url(#arrg)"/>
+            <!-- Step 6: Visit -->
+            <rect x="30" y="362" width="260" height="48" rx="12" fill="#259b94" stroke="none"/>
+            <text x="160" y="382" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="1">🏥 HOSPITAL VISIT</text>
+            <text x="160" y="398" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="rgba(255,255,255,.9)">Consult · Diagnose · Treat</text>
+            <!-- Arrow 6 -->
+            <line x1="160" y1="410" x2="160" y2="428" stroke="#259b94" stroke-width="2" marker-end="url(#arrg)"/>
+            <!-- Step 7: Retention & Referral -->
+            <rect x="14" y="430" width="135" height="44" rx="12" fill="#e1f5f3" stroke="#259b94" stroke-width="1"/>
+            <text x="81" y="449" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="700" fill="#1a7870">RETENTION</text>
+            <text x="81" y="464" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#1a7870">Follow-up · Reminders</text>
+            <rect x="171" y="430" width="135" height="44" rx="12" fill="#e1f5f3" stroke="#259b94" stroke-width="1"/>
+            <text x="238" y="449" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="700" fill="#1a7870">REFERRAL</text>
+            <text x="238" y="464" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#1a7870">Word of Mouth · Review</text>
+            <!-- Retention loop back arrow -->
+            <path d="M14,452 Q-10,452 -10,300 Q-10,98 40,98" stroke="#e8ddd4" stroke-width="1.5" fill="none" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+          </svg>
         </div>
         <div class="lbl">LINE OA — Setup ที่ต้องมี</div>
         <div class="g2">
@@ -504,7 +690,7 @@ hr{border:none;border-top:1px solid var(--line);margin:20px 0}
     <div class="g2" style="margin-bottom:20px">
       <div>
         <div class="lbl">Content Gap — สิ่งที่คู่แข่งขาด</div>
-        <div class="tw">
+        <div class="tscroll"><div class="tw">
           <table>
             <thead><tr><th>ประเภท Content</th><th>คู่แข่ง</th><th>โอกาส VINTA</th></tr></thead>
             <tbody>
@@ -516,11 +702,11 @@ hr{border:none;border-top:1px solid var(--line);margin:20px 0}
               <tr><td>Palliative / End-of-life</td><td>ต่ำมาก</td><td class="g">สูงมาก ✓</td></tr>
             </tbody>
           </table>
-        </div>
+        </div></div>
       </div>
       <div>
         <div class="lbl">Monthly Cadence</div>
-        <div class="tw" style="margin-bottom:14px">
+        <div class="tw t2col" style="margin-bottom:14px">
           <table>
             <thead><tr><th>Asset</th><th>จำนวน/เดือน</th></tr></thead>
             <tbody>
@@ -650,7 +836,7 @@ hr{border:none;border-top:1px solid var(--line);margin:20px 0}
       </div>
       <div>
         <div class="lbl">KPI ต่อ Phase</div>
-        <div class="tw">
+        <div class="tw t2col">
           <table>
             <thead><tr><th>Phase</th><th>KPI หลัก</th></tr></thead>
             <tbody>
